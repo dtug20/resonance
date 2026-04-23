@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Geist_Mono } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
-const geistSans = Geist({
+const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -23,12 +25,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${inter.variable} ${geistMono.variable} antialiased`}
+        >
+          {children}
+          <Toaster />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
