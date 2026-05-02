@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
-import { TEXT_MAX_LENGTH } from "../../text-to-speech/data/constants";
+import { TEXT_MAX_LENGTH, COST_PER_UNIT } from "../../text-to-speech/data/constants";
 
 export function TextInputPanel() {
     const [text, setText] = useState("");
@@ -42,7 +42,7 @@ export function TextInputPanel() {
                                 ) : (
                                     <>
                                         <span className="tabular-nums">
-                                            ${(text.length * 0.00003).toFixed(4)}
+                                            ${(text.length * COST_PER_UNIT).toFixed(4)}
                                         </span>{" "}
                                         estimated
                                     </>
