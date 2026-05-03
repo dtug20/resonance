@@ -100,13 +100,18 @@ export const WavyBackground = ({
     return () => {
       cancelAnimationFrame(animationId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [isSafari] = useState(() =>
-    typeof window !== "undefined" &&
-    navigator.userAgent.includes("Safari") &&
-    !navigator.userAgent.includes("Chrome")
-  );
+  const [isSafari, setIsSafari] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsSafari(
+      typeof window !== "undefined" &&
+      navigator.userAgent.includes("Safari") &&
+      !navigator.userAgent.includes("Chrome")
+    );
+  }, []);
 
   return (
     <div
