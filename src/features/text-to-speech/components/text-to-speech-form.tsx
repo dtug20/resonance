@@ -5,7 +5,7 @@ import { formOptions } from "@tanstack/react-form";
 
 import { useAppForm } from "@/hooks/use-app-form";
 
-const ttsFormSchema = z.object({
+export const ttsFormSchema = z.object({
     text: z.string().min(1, "Please enter some text"),
     voiceId: z.string().min(1, "Please select a voice"),
     temperature: z.number(),
@@ -14,9 +14,9 @@ const ttsFormSchema = z.object({
     repetitionPenalty: z.number(),
 });
 
-export type TtsFormSchema = z.infer<typeof ttsFormSchema>;
+export type TTSFormValues = z.infer<typeof ttsFormSchema>;
 
-export const defaultTTSValues: TtsFormSchema = {
+export const defaultTTSValues: TTSFormValues = {
     text: "",
     voiceId: "",
     temperature: 0.8,
@@ -34,7 +34,7 @@ export function TextToSpeechForm({
     defaultValues,
 }: {
     children: React.ReactNode;
-    defaultValues?: TtsFormSchema;
+    defaultValues?: TTSFormValues;
 }) {
     const form = useAppForm({
         ...ttsFormOptions,

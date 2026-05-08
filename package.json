@@ -7,13 +7,16 @@
     "build": "next build",
     "start": "next start",
     "postinstall": "prisma generate",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync-api": "tsx scripts/sync-api.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.997.0",
     "@aws-sdk/s3-request-presigner": "^3.997.0",
     "@base-ui/react": "^1.4.1",
     "@clerk/nextjs": "^7.2.5",
+    "@dicebear/collection": "^9.4.2",
+    "@dicebear/core": "^9.4.2",
     "@hookform/resolvers": "^5.2.2",
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
@@ -33,6 +36,9 @@
     "lucide-react": "^1.8.0",
     "next": "16.1.6",
     "next-themes": "^0.4.6",
+    "openai": "^6.37.0",
+    "openai-fetch": "^3.4.2",
+    "openapi-fetch": "^0.17.0",
     "pg": "^8.20.0",
     "radix-ui": "^1.4.3",
     "react": "19.2.3",
@@ -45,6 +51,7 @@
     "server-only": "^0.0.1",
     "simplex-noise": "^4.0.3",
     "sonner": "^2.0.7",
+    "superjson": "^2.2.6",
     "tailwind-merge": "^3.5.0",
     "vaul": "^1.1.2",
     "zod": "^4.4.2"
@@ -58,6 +65,7 @@
     "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "openapi-typescript": "^7.13.0",
     "prisma": "^7.8.0",
     "shadcn": "^4.4.0",
     "tailwindcss": "^4",
