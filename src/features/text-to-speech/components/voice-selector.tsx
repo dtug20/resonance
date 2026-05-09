@@ -17,7 +17,7 @@ import {
     SelectSeparator,
 } from "@/components/ui/select";
 import { useTypedAppFormContext } from "@/hooks/use-app-form";
-import { VoiceAvatar } from "@/components/voice-avatar/voice-avata";
+import { VoiceAvatar } from "@/components/voice-avatar/voice-avatar";
 
 import { useTTSVoices } from "../contexts/tts-voices-context";
 import { ttsFormOptions } from "./text-to-speech-form";

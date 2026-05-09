@@ -61,13 +61,13 @@ model Generation {
   voiceId String?
   voice   Voice?  @relation(fields: [voiceId], references: [id], onDelete: SetNull)
 
-  text             String
-  voiceName        String
-  r2ObjectKey      String?
-  temperature      Float
-  topP             Float
-  topK             Int
-  repetitonPenalty Float
+  text              String
+  voiceName         String
+  r2ObjectKey       String?
+  temperature       Float
+  topP              Float
+  topK              Int
+  repetitionPenalty Float
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
