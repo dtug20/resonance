@@ -36,8 +36,13 @@ export function useAudioPlayback(src: string | File | null) {
             setIsPlaying(false);
         } else {
             setIsLoading(true);
+            // Reset to beginning so replay works after audio ends
+            audioRef.current.currentTime = 0;
             audioRef.current.play().then(() => {
                 setIsPlaying(true);
+                setIsLoading(false);
+            }).catch(() => {
+                setIsPlaying(false);
                 setIsLoading(false);
             });
         }
