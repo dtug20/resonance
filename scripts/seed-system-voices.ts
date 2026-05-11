@@ -153,6 +153,27 @@ const systemVoiceMetadata: Record<string, VoiceMetadata> = {
         category: "NARRATIVE",
         language: "en-US",
     },
+    Hien: {
+        description: "Giọng nữ Bắc Bộ, đọc văn học, nhẹ nhàng, truyền cảm",
+        category: "AUDIOBOOK",
+        language: "vi-VN",
+    },
+    Khoa: {
+        description: "Giọng nam Nam Bộ, nhẹ nhàng, tự nhiên, dẫn chương trình radio",
+        category: "AUDIOBOOK",
+        language: "vi-VN",
+    },
+    Lan: {
+        description: "Giọng nữ Nam Bộ, tự nhiên, truyền cảm, phù hợp với truyện thiếu nhi",
+        category: "CHARACTERS",
+        language: "vi-VN",
+    },
+    Tai: {
+        description: "Giong nam Bắc Bộ, già dặn, trầm ấm",
+        category: "CHARACTERS",
+        language: "vi-VN",
+    },
+
 };
 
 async function readSystemVoiceAudio(name: string) {
