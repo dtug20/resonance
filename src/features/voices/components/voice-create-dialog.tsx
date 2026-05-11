@@ -10,13 +10,17 @@ import {
 } from "@/components/ui/dialog";
 import {
     Drawer,
+    DrawerClose,
     DrawerContent,
     DrawerDescription,
+    DrawerFooter,
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { VoiceCreateForm } from "./voice-create-form";
+import { Button } from "@/components/ui/button";
 
 interface VoiceCreateDialogProps {
     children?: React.ReactNode;
@@ -45,6 +49,22 @@ export function VoiceCreateDialog({
                             Upload or record an audio sample to add a new voice to your library.
                         </DrawerDescription>
                     </DrawerHeader>
+                    <VoiceCreateForm
+                        scrollable
+                        footer={(submit) => (
+                            <DrawerFooter>
+                                {submit}
+                                <DrawerClose asChild>
+                                    <Button
+                                        variant="outline"
+                                    >
+                                        Cancel
+                                    </Button>
+                                </DrawerClose>
+
+                            </DrawerFooter>
+                        )}
+                    />
                 </DrawerContent>
             </Drawer>
         );
@@ -63,6 +83,7 @@ export function VoiceCreateDialog({
                         Upload or record an audio sample to add a new voice to your library.
                     </DialogDescription>
                 </DialogHeader>
+                <VoiceCreateForm />
             </DialogContent>
         </Dialog>
     )
