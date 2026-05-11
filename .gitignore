@@ -49,6 +49,12 @@ next-env.d.ts
 
 __pycache__
 
+# Modal
 chatterbox_tts.py
+
 # Sentry Config File
 .env.sentry-build-plugin
+chatterbox_tts.py
+chatterbox_tts.py
+viterbox_tts.py
+viterbox-integration-guide-v2.md

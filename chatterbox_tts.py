@@ -1,7 +1,7 @@
 """Chatterbox TTS API - Text-to-speech with voice cloning on Modal."""
 
 import modal
-import viter from Viterbox
+
 # Use this to add R2 tokens:
 # modal secret create cloudflare-r2 \
 #   AWS_ACCESS_KEY_ID=<r2-access-key-id> \
@@ -31,10 +31,14 @@ r2_bucket = modal.CloudBucketMount(
 )
 
 # Modal setup
-image = modal.Image.debian_slim(python_version="3.10").uv_pip_install(
-    "chatterbox-tts==0.1.6",
-    "fastapi[standard]==0.124.4",
-    "peft==0.18.0",
+image = (
+    modal.Image.debian_slim(python_version="3.10")
+    .apt_install("ffmpeg")
+    .uv_pip_install(
+        "chatterbox-tts==0.1.6",
+        "fastapi[standard]==0.124.4",
+        "peft==0.18.0",
+    )
 )
 app = modal.App("chatterbox-tts", image=image)
 
@@ -121,10 +125,25 @@ class Chatterbox:
                     detail=f"Voice not found at '{request.voice_key}'",
                 )
 
+            # R2 voice files may lack a .wav extension (user-uploaded voices
+            # are stored as "voices/orgs/.../cmpXXX"). librosa/soundfile needs
+            # the extension to detect the audio format.
+            import shutil
+            import tempfile
+
+            needs_extension = not voice_path.suffix
+            if needs_extension:
+                fd, tmp_path = tempfile.mkstemp(suffix=".wav")
+                os.close(fd)
+                shutil.copy2(voice_path, tmp_path)
+                resolved_voice_path = tmp_path
+            else:
+                resolved_voice_path = str(voice_path)
+
             try:
                 audio_bytes = self.generate.local(
                     request.prompt,
-                    str(voice_path),
+                    resolved_voice_path,
                     request.temperature,
                     request.top_p,
                     request.top_k,
@@ -136,10 +155,15 @@ class Chatterbox:
                     media_type="audio/wav",
                 )
             except Exception as e:
+                import traceback
+                traceback.print_exc()
                 raise HTTPException(
                     status_code=500,
                     detail=f"Failed to generate audio: {e}",
                 )
+            finally:
+                if needs_extension:
+                    Path(tmp_path).unlink(missing_ok=True)
 
         return web_app
 

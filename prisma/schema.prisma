@@ -64,6 +64,8 @@ model Generation {
   text              String
   voiceName         String
   r2ObjectKey       String?
+  engine            String   @default("chatterbox") // "chatterbox" | "viterbox"
+  detectedLang      String   @default("en")         // "en" | "vi"
   temperature       Float
   topP              Float
   topK              Int
