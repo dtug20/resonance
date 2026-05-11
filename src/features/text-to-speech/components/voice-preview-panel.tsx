@@ -62,6 +62,7 @@ export function VoicePreviewPanel({
         const link = document.createElement("a");
         link.download = `${safeName}.wav`;
         link.href = audioUrl;
+        document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
 

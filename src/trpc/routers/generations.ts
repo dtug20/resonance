@@ -228,8 +228,10 @@ async function callViterbox(
             language: "vi",
             exaggeration: 0.5,
             cfg_weight: 0.5,
-            temperature: params.temperature,
-            top_p: params.topP,
+            // Viterbox enforces temperature <= 1.0 and top_p <= 1.0,
+            // while Chatterbox allows higher values — clamp here.
+            temperature: Math.min(params.temperature, 1.0),
+            top_p: Math.min(params.topP, 1.0),
             repetition_penalty: params.repetitionPenalty,
             sentence_pause_ms: 500,
             crossfade_ms: 50,

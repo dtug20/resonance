@@ -62,8 +62,12 @@ export function VoicePreviewMobile({
 
         if (isPlaying) {
             audio.pause();
+            setIsPlaying(false);
         } else {
-            audio.play().catch(() => { });
+            setIsPlaying(true);
+            audio.play().catch(() => {
+                setIsPlaying(false);
+            });
         }
     };
 
@@ -80,6 +84,7 @@ export function VoicePreviewMobile({
         const link = document.createElement("a");
         link.download = `${safeName}.wav`;
         link.href = audioUrl;
+        document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };

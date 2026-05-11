@@ -196,7 +196,7 @@ function LanguageCombobox({
     const selectedLabel = LANGUAGE_OPTIONS.find((l) => l.value === value)?.label ?? "";
 
     return (
-        <Popover open={open} onOpenChange={setOpen}>
+        <Popover open={open} onOpenChange={setOpen} modal>
             <PopoverTrigger asChild>
                 <Button
                     type="button"
@@ -216,10 +216,13 @@ function LanguageCombobox({
                     <ChevronsUpDown className="size-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-(--radix-popover-trigger-width) p-0">
+            <PopoverContent
+                className="w-(--radix-popover-trigger-width) p-0"
+                onOpenAutoFocus={(e) => e.preventDefault()}
+            >
                 <Command>
                     <CommandInput placeholder="Search language..." />
-                    <CommandList className="max-h-52 overflow-y-auto">
+                    <CommandList className="max-h-52 overflow-y-auto overscroll-contain touch-pan-y">
                         <CommandEmpty>No language found.</CommandEmpty>
                         <CommandGroup>
                             {LANGUAGE_OPTIONS.map((lang) => (
