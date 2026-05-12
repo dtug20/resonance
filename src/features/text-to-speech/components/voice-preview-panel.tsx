@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { VoiceAvatar } from "@/components/voice-avatar/voice-avatar";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 import { useWaveSurfer } from "../hooks/use-wavesurfer";
 
@@ -33,6 +34,7 @@ export function VoicePreviewPanel({
     const [isDownloading, setIsDownloading] = useState(false);
     const selectedVoiceName = voice?.name ?? null;
     const selectedVoiceSeed = voice?.id ?? null;
+    const isMobile = useIsMobile();
 
     const {
         containerRef,
@@ -45,7 +47,7 @@ export function VoicePreviewPanel({
         seekForward,
     } = useWaveSurfer({
         url: audioUrl,
-        autoplay: true,
+        autoplay: !isMobile,
     });
 
     const handleDownload = () => {

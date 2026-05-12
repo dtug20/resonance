@@ -35,18 +35,27 @@ export function VoicePreviewMobile({
         const handlePlay = () => setIsPlaying(true);
         const handlePause = () => setIsPlaying(false);
         const handleEnded = () => setIsPlaying(false);
+        // Fallback: some mobile browsers don't fire 'ended' reliably
+        const handleTimeUpdate = () => {
+            if (audio.currentTime >= audio.duration && audio.duration > 0) {
+                setIsPlaying(false);
+            }
+        };
 
         audio.addEventListener("play", handlePlay);
         audio.addEventListener("pause", handlePause);
         audio.addEventListener("ended", handleEnded);
+        audio.addEventListener("timeupdate", handleTimeUpdate);
 
         audio.pause();
         audio.currentTime = 0;
+        audio.load();
 
         return () => {
             audio.removeEventListener("play", handlePlay);
             audio.removeEventListener("pause", handlePause);
             audio.removeEventListener("ended", handleEnded);
+            audio.removeEventListener("timeupdate", handleTimeUpdate);
         };
     }, [audioUrl]);
 
@@ -95,7 +104,7 @@ export function VoicePreviewMobile({
 
     return (
         <div className="border-t lg:hidden p-4">
-            <audio ref={audioRef} src={audioUrl} />
+            <audio ref={audioRef} src={audioUrl} preload="auto" />
             <div className="grid grid-cols-[1fr_auto] items-center gap-4">
                 <div className="min-w-0">
                     <p className="truncate text-sm font-medium">{text}</p>
