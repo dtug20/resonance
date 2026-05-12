@@ -56,7 +56,7 @@ export function VoiceCard({
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
     const { flag, region } = parseLanguage(voice.language);
 
-    const audioSrc = `/api/voices/${encodeURIComponent(voice.id)}`;
+    const audioSrc = voice.previewUrl;
     const { isPlaying, isLoading, togglePlay } = useAudioPlayback(audioSrc);
 
     const trpc = useTRPC();

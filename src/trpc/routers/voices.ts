@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { prisma } from "@/lib/db";
+import { env } from "@/lib/env";
 import { deleteAudio } from "@/lib/r2";
 import { createTRPCRouter, orgProcedure } from "../init";
 
@@ -48,6 +49,7 @@ export const voicesRouter = createTRPCRouter({
                         category: true,
                         language: true,
                         variant: true,
+                        r2ObjectKey: true,
                     },
                 }),
                 prisma.voice.findMany({
@@ -63,11 +65,23 @@ export const voicesRouter = createTRPCRouter({
                         category: true,
                         language: true,
                         variant: true,
+                        r2ObjectKey: true,
                     },
                 }),
             ]);
 
-            return { custom, system };
+            const mapVoice = (v: typeof custom[number]) => ({
+                ...v,
+                previewUrl: v.r2ObjectKey
+                    ? `${env.NEXT_PUBLIC_R2_PUBLIC_URL}/${v.r2ObjectKey}`
+                    : null,
+                r2ObjectKey: undefined,
+            });
+
+            return {
+                custom: custom.map(mapVoice),
+                system: system.map(mapVoice),
+            };
         }),
 
     delete: orgProcedure

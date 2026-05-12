@@ -19,7 +19,6 @@ export const generationsRouter = createTRPCRouter({
                 },
                 omit: {
                     orgId: true,
-                    r2ObjectKey: true,
                 },
             });
 
@@ -27,7 +26,7 @@ export const generationsRouter = createTRPCRouter({
 
             return {
                 ...generation,
-                audioUrl: `/api/audio/${generation.id}`,
+                audioUrl: `${env.NEXT_PUBLIC_R2_PUBLIC_URL}/${generation.r2ObjectKey}`,
             };
         }),
 

@@ -13,6 +13,11 @@ export const env = createEnv({
         CHATTERBOX_API_KEY: z.string().min(1),
         VITERBOX_API_URL: z.url(),
     },
-    experimental__runtimeEnv: {},
+    client: {
+        NEXT_PUBLIC_R2_PUBLIC_URL: z.string().url(),
+    },
+    experimental__runtimeEnv: {
+        NEXT_PUBLIC_R2_PUBLIC_URL: process.env.NEXT_PUBLIC_R2_PUBLIC_URL,
+    },
     skipValidation: !!process.env.SKIP_ENV_VALIDATION,
 });
