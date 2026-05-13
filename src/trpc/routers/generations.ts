@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/node';
 import { z } from "zod";
+import { polar } from '@/lib/polar';
 import { TRPCError } from "@trpc/server";
 import { prisma } from "@/lib/db";
 import { env } from "@/lib/env";
@@ -56,6 +57,26 @@ export const generationsRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ input, ctx }) => {
+            // Check for active subcription before generation
+            try {
+                const customerState = await polar.customers.getStateExternal({
+                    externalId: ctx.orgId,
+                });
+                const hasActiveSubcriptions = (customerState.activeSubscriptions ?? []).length > 0;
+                if (!hasActiveSubcriptions) {
+                    throw new TRPCError({
+                        code: "FORBIDDEN",
+                        message: "SUBSCRIPTION_REQUIRED",
+                    });
+                }
+            } catch (err) {
+                if (err instanceof TRPCError) throw err;
+                // Customer doesnt exist in Polar yet -> no subsciption
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "SUBSCRIPTION_REQUIRED"
+                });
+            }
             const voice = await prisma.voice.findUnique({
                 where: {
                     id: input.voiceId,
@@ -169,6 +190,22 @@ export const generationsRouter = createTRPCRouter({
                 code: "INTERNAL_SERVER_ERROR",
                 message: "Failed to store generated audio",
             });
+
+            // Ingest usage event to Polar
+            polar.events
+                .ingest({
+                    events: [
+                        {
+                            name: "tts_generation",
+                            externalCustomerId: ctx.orgId,
+                            metadata: { characters: input.text.length },
+                            timestamp: new Date(),
+                        },
+                    ],
+                })
+                .catch(() => {
+                    // Silently fail
+                })
 
             return { id: generationId };
         }),
