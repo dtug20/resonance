@@ -1,6 +1,6 @@
-# Resonance
+# TexTone
 
-Resonance is a robust, full-stack AI web application tailored for advanced text-to-speech generation and audio processing. The platform bridges custom cloud-based AI models with a seamless, highly interactive user interface to deliver a production-ready audio experience.
+TexTone is a robust, full-stack AI web application tailored for advanced text-to-speech generation and audio processing. The platform bridges custom cloud-based AI models with a seamless, highly interactive user interface to deliver a production-ready audio experience.
 
 Live Application: https://www.textone.id.vn (Deployed via Cloudflare)
 
@@ -43,7 +43,7 @@ Before you begin, ensure you have the following installed on your local machine:
 1. Clone the repository
 ```bash
 git clone <your-repository-url>
-cd resonance
+cd textone1
 Install dependencies
 ```
 
